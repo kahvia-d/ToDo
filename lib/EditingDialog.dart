@@ -8,33 +8,39 @@ class EditingDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller=TextEditingController();
     return AlertDialog(
-      backgroundColor: Colors.orangeAccent,
+      backgroundColor: Colors.green.shade200,
       content: SizedBox(
         height: 120,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children:  [
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                hintText: "Your todo item",
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Colors.orange
-                  )
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(
-                        color: Colors.orange
-                    )
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              decoration: const ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: Colors.green
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(15))
                 )
+              ),
+              child: TextField(
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
+                ),
+                controller: controller,
+                decoration: const InputDecoration(
+                    hintText: "Your todo item",
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none
+                ),
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                SizedBox(width: 70,),
                 ElevatedButton(
                   onPressed: (){
                     context.read<TodosData>().addTodo([
@@ -44,6 +50,7 @@ class EditingDialog extends StatelessWidget {
                   },
                   child: const Text("Save")
                 ),
+                SizedBox(width: 15,),
                 ElevatedButton(
                     onPressed: (){
                       Navigator.pop(context);

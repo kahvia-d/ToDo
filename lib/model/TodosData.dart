@@ -6,9 +6,21 @@ class TodosData extends ChangeNotifier{
 
 
   List get toDoList=>db.todoList;
+  Map<DateTime,int> get finishedStatus=>db.finishedStatus;
 
   void changeTodoStatus(int index){
+    DateTime now=DateTime.now();
     db.todoList[index][1]=!db.todoList[index][1];
+    if(db.todoList[index][1]){
+      // int? count=db.finishedStatus[DateTime(now.year,now.month,now.day)];
+      if(db.finishedStatus[DateTime(now.year,now.month,now.day)]==null){
+        db.finishedStatus[DateTime(now.year,now.month,now.day)]=0;
+      }
+      db.finishedStatus[DateTime(now.year,now.month,now.day)]=(db.finishedStatus[DateTime(now.year,now.month,now.day)]!+1)!;
+    }
+    else{
+      db.finishedStatus[DateTime(now.year,now.month,now.day)]=(db.finishedStatus[DateTime(now.year,now.month,now.day)]!-1)!;
+    }
     db.updateTodoData();
     notifyListeners();
   }

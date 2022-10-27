@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/EditingDialog.dart';
+import 'package:todo/components/calender.dart';
 import 'model/TodosData.dart';
 
 class TodoPage extends StatelessWidget {
+  // late List toDoList;
   const TodoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      backgroundColor: Colors.orangeAccent,
-      appBar: AppBar(
-        title: const Text("To Do"),
-        centerTitle: true,
-      ),
+      backgroundColor: Colors.grey.shade400,
+// appBar: AppBar(
+//   title: const Text("To Do"),
+//   centerTitle: true,
+// ),
       body: TodoList(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: (){
-          //点击添加按钮则显示添加todo的消息框，这个生成的消息框是TodoPage的同级。所以ChangeNotifierProvider要添加在MaterialApp（）的父级才能被dialog正常使用。
+        onPressed: (){//点击添加按钮则显示添加todo的消息框，这个生成的消息框是TodoPage的同级。所以ChangeNotifierProvider要添加在MaterialApp（）的父级才能被dialog正常使用。
           showDialog(context: context, builder: (context){
             return EditingDialog();
           });
@@ -28,6 +31,8 @@ class TodoPage extends StatelessWidget {
     );
   }
 }
+
+
 
 class TodoList extends StatelessWidget {
   TodoList({Key? key}) : super(key: key);
@@ -39,21 +44,30 @@ class TodoList extends StatelessWidget {
     toDoList=context.watch<TodosData>().toDoList;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: ListView.builder(
-        physics: const BouncingScrollPhysics(),
-        itemCount: toDoList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return TodoItem(
-            taskName: toDoList[index][0],
-            finished: toDoList[index][1],
-            onChanged: (oldStatus){
-              context.read<TodosData>().changeTodoStatus(index);
-            },
-            onDelete: (context){
-              context.read<TodosData>().removeTodo(index);
-            },
-          );
-        },
+      child: Column(
+        children: [
+          const SizedBox(height: 25,),
+          const MapCalender(),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: toDoList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return TodoItem(
+                  taskName: toDoList[index][0],
+                  finished: toDoList[index][1],
+                  onChanged: (oldStatus){
+                    context.read<TodosData>().changeTodoStatus(index);
+                  },
+                  onDelete: (context){
+                    context.read<TodosData>().removeTodo(index);
+                  },
+                );
+              },
+            ),
+          )
+        ],
       ),
     );
   }
@@ -69,7 +83,7 @@ class TodoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.only(top: 10,bottom: 10),
       child: Slidable(//可滑动的组件
         //end代表从右边往左边滑动
         endActionPane: ActionPane(//滑动选项面板
@@ -88,7 +102,7 @@ class TodoItem extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           // height: 60,
           decoration:  BoxDecoration(
-              color: Colors.orange,
+              color: finished?Colors.green.shade400:Colors.white,
               borderRadius: BorderRadius.circular(12)
           ),
           child: Row(

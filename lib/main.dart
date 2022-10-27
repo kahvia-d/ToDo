@@ -33,9 +33,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'ToDo',
         theme: ThemeData(
-          primarySwatch: Colors.orange,
+          primarySwatch: Colors.green,
         ),
-        home: const TodoPage(),
+        home: TodoPage(),
       ),
     );
   }
