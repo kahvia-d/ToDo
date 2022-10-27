@@ -102,7 +102,7 @@ class TodoItem extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           // height: 60,
           decoration:  BoxDecoration(
-              color: finished?Colors.green.shade400:Colors.white,
+              color: finished?Colors.green.shade500:Colors.white,
               borderRadius: BorderRadius.circular(12)
           ),
           child: Row(

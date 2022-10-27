@@ -14,12 +14,14 @@ class TodoDataBase{
 
   void loadTodoData(){
     todoList=box.get("TODOLIST");
-    finishedStatus=box.get("STATUS") ?? {};
+    finishedStatus=Map<DateTime,int>.from(box.get("STATUS")) ?? {};
+
   }
 
   void updateTodoData(){
     box.put("TODOLIST", todoList);
     box.put("STATUS", finishedStatus);
+    print(box.get("STATUS"));
   }
 
 }
